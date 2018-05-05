@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
+#include "TankAimingComponent.h"
+#include "Projectile.h"
 #include "Tank.generated.h"
 
 UCLASS()
@@ -15,9 +17,14 @@ public:
 	// Sets default values for this pawn's properties
 	ATank();
 
+	UPROPERTY(EditAnywhere)
+		float LaunchSpeed = 1000;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	UTankAimingComponent* TankAimingComponent = nullptr;
 
 public:	
 	// Called every frame
@@ -26,6 +33,11 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	void AimAt(const FVector& HitLocation);
+
+	UFUNCTION(BlueprintCallable)
+		void Fire();
 	
-	
+	UPROPERTY(EditAnywhere, Category = Setup)
+		TSubclassOf<AProjectile> ProjectileBlueprint;
 };

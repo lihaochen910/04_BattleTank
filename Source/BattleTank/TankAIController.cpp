@@ -14,14 +14,14 @@ ATank* ATankAIController::GetPlayerTank() const
 
 void ATankAIController::BeginPlay()
 {
-	auto ControlledTank = GetControlledTank();
+	controlledTank = GetControlledTank();
 
-	if (!ControlledTank)
+	if (!controlledTank)
 	{
 		UE_LOG(LogTemp, Error, TEXT("GetControlledTank == nullptr"));
 	}
 	else {
-		UE_LOG(LogTemp, Warning, TEXT("%s controlled by AI"), *ControlledTank->GetName());
+		UE_LOG(LogTemp, Warning, TEXT("%s controlled by AI"), *controlledTank->GetName());
 	}
 
 	playerTank = GetPlayerTank();
@@ -35,4 +35,10 @@ void ATankAIController::BeginPlay()
 	}
 }
 
+void ATankAIController::Tick(float DeltaTime)
+{
+	if (!controlledTank || !playerTank) { return; }
+
+	controlledTank->AimAt(playerTank->GetActorLocation());
+}
 
