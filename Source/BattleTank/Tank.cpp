@@ -45,7 +45,16 @@ void ATank::Fire()
 {
 	if (!TankAimingComponent->GetBarrel()) { return; }
 
-	AActor* projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, 
+	AProjectile* projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint,
 		TankAimingComponent->GetBarrel()->GetSocketLocation("Projectile"), TankAimingComponent->GetBarrel()->GetSocketRotation("Projectile"));
+
+	projectile->LaunchProjectile(LaunchSpeed);
+}
+
+FVector ATank::GetBarrelDirection()
+{
+	if (!TankAimingComponent->GetBarrel()) { return FVector::ZeroVector; }
+
+	return TankAimingComponent->GetBarrel()->GetSocketLocation("Projectile") - TankAimingComponent->GetBarrel()->GetComponentLocation();
 }
 

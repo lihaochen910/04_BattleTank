@@ -14,6 +14,8 @@ ATank* ATankAIController::GetPlayerTank() const
 
 void ATankAIController::BeginPlay()
 {
+	Super::BeginPlay();
+
 	controlledTank = GetControlledTank();
 
 	if (!controlledTank)
@@ -37,8 +39,15 @@ void ATankAIController::BeginPlay()
 
 void ATankAIController::Tick(float DeltaTime)
 {
+	Super::Tick(DeltaTime);
+
 	if (!controlledTank || !playerTank) { return; }
 
 	controlledTank->AimAt(playerTank->GetActorLocation());
+
+	auto targetDirection = playerTank->GetActorLocation() - controlledTank->GetActorLocation();
+
+	if (controlledTank->GetBarrelDirection() == targetDirection)
+		controlledTank->Fire();
 }
 

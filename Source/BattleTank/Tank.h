@@ -40,4 +40,6 @@ public:
 	
 	UPROPERTY(EditAnywhere, Category = Setup)
 		TSubclassOf<AProjectile> ProjectileBlueprint;
+
+	FVector GetBarrelDirection();
 };
